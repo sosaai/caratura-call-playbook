@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#181c19">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="description" content="Il manuale operativo Caratura Digitale per le chiamate alle gioiellerie.">
+  <title>Caratura Digitale · Manuale chiamate</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Vai al contenuto</a>
+<svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+  <symbol id="i-diamond" viewBox="0 0 24 24"><path d="m3 8 4-5h10l4 5-9 13L3 8Zm0 0h18M7 3l5 18 5-18M7 3l5 5 5-5"/></symbol>
+  <symbol id="i-call" viewBox="0 0 24 24"><path d="M8 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-4l-5-2-2 3a14 14 0 0 1-7-7l3-2-2-5Z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11a9 9 0 0 1-9 9H3l1.5-5A9 9 0 1 1 21 11Z"/><path d="M8 8h8M8 12h5"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m21 3-7 18-4-8-8-4 19-6ZM10 13 21 3"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 3h15v18H5a3 3 0 0 1 0-6h15M5 3a3 3 0 0 0-3 3v12M7 7h8M7 11h5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M15 8V3H3v13h5"/></symbol>
+</defs></svg>
+
+<aside class="sidebar">
+  <a class="brand" href="#script" aria-label="Caratura Digitale, script"><svg><use href="#i-diamond"/></svg><span>CARATURA<small>D I G I T A L E</small></span></a>
+  <div class="sidebar-label">IL TUO PLAYBOOK</div>
+  <nav class="nav" aria-label="Sezioni del manuale">
+    <a href="#script" data-nav="script" aria-current="page"><svg><use href="#i-call"/></svg><span>La chiamata</span><small>01</small></a>
+    <a href="#obiezioni" data-nav="obiezioni"><svg><use href="#i-chat"/></svg><span>Le obiezioni</span><small>02</small></a>
+    <a href="#followup" data-nav="followup"><svg><use href="#i-send"/></svg><span>Il follow-up</span><small>03</small></a>
+    <a href="#registro" data-nav="registro"><svg><use href="#i-book"/></svg><span>Il registro</span><small>04</small></a>
+  </nav>
+  <div class="sidebar-note"><span class="tiny-label">IL PUNTO DI ARRIVO</span><p>Un esempio da inviare.<br>Un momento per risentirsi.</p><span>La proposta viene dopo.</span></div>
+  <p class="edition">Manuale operativo · v2.0<br>Chanel & Andrea</p>
+</aside>
+
+<div class="workspace">
+  <header class="topbar">
+    <span class="mobile-brand"><svg><use href="#i-diamond"/></svg>CARATURA</span>
+    <span class="desktop-label">GIOIELLERIE <span>/</span> MANUALE CHIAMATE</span>
+    <div class="profile"><label for="operator">Stai chiamando come</label><select id="operator" name="operator"><option value="">Scegli il nome</option><option>Chanel</option><option>Andrea</option></select></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div id="storageError" class="notice error" role="alert" hidden></div>
+    <div class="session-strip" aria-label="Riepilogo personale di oggi">
+      <div><span class="status-dot"></span><span id="todayLabel">La sessione di oggi</span></div>
+      <div class="session-goal"><strong><span id="callCount">0</span><span class="muted"> / 10</span></strong><span>tentativi</span><progress id="callProgress" max="10" value="0" aria-label="Tentativi di oggi su obiettivo 10"></progress></div>
+    </div>
+
+    <section id="script" class="page" aria-labelledby="scriptTitle">
+      <div class="page-heading"><div><p class="eyebrow">01 / LA PRIMA CHIAMATA</p><h1 id="scriptTitle">Una chiamata.<br>Un <em>micro-sì.</em></h1><p class="intro">Apri una conversazione. Chiedi il permesso di inviare un esempio. Concorda quando risentirvi.</p></div><div class="hero-mark" aria-hidden="true"><svg><use href="#i-diamond"/></svg></div></div>
+      <details class="preflight"><summary>Prima di comporre il numero <span>4 cose pronte</span></summary><div class="checklist">
+        <label><input type="checkbox"> Nome della gioielleria, città e numero.</label>
+        <label><input type="checkbox"> Un motivo concreto per cui contattarla.</label>
+        <label><input type="checkbox"> Un esempio pertinente, già pronto da inviare.</label>
+        <label><input type="checkbox"> Due possibili orari per il richiamo.</label>
+      </div></details>
+      <div class="section-caption"><h2>Le parole, nell’ordine giusto.</h2><span>Ascolta tra un passaggio e l’altro</span></div>
+      <div class="script-grid">
+        <article class="script-card"><div class="card-heading"><span class="step-number">01</span><div><span class="tiny-label">APERTURA</span><h3>Trova il referente</h3></div></div><blockquote id="s1">Buongiorno, sono <b data-operator>[IL TUO NOME]</b> di Caratura Digitale. Ci occupiamo della presentazione online delle gioiellerie. Posso parlare con il titolare o con chi segue la comunicazione?</blockquote><button type="button" class="copy" data-copy="s1"><svg><use href="#i-copy"/></svg>Copia testo</button></article>
+        <article class="script-card"><div class="card-heading"><span class="step-number">02</span><div><span class="tiny-label">CON IL DECISORE</span><h3>Chiedi mezzo minuto</h3></div></div><blockquote id="s2">Buongiorno, sono <b data-operator>[IL TUO NOME]</b> di Caratura Digitale. La chiamo per mostrarle un esempio di come presentiamo online una gioielleria e i suoi prodotti. Ha mezzo minuto?</blockquote><button type="button" class="copy" data-copy="s2"><svg><use href="#i-copy"/></svg>Copia testo</button></article>
+        <article class="script-card featured"><div class="card-heading"><span class="step-number">03</span><div><span class="tiny-label">IL PRIMO SÌ</span><h3>Proponi l’esempio</h3></div></div><blockquote id="s3">Posso inviarle un esempio da guardare con calma? Preferisce WhatsApp o email?</blockquote><p class="hint">Aspetta la risposta. Se accetta, verifica il recapito prima di chiudere.</p><button type="button" class="copy" data-copy="s3"><svg><use href="#i-copy"/></svg>Copia testo</button></article>
+        <article class="script-card featured"><div class="card-heading"><span class="step-number">04</span><div><span class="tiny-label">IL SECONDO SÌ</span><h3>Concorda il richiamo</h3></div></div><blockquote id="s4">Qual è il recapito migliore? Possiamo risentirci per due minuti <b>[GIORNO]</b> alle <b>[ORA]</b>, così mi dice se vale la pena approfondire?</blockquote><p class="hint">Registra giorno, ora e referente. Il richiamo deve essere concordato.</p><button type="button" class="copy" data-copy="s4"><svg><use href="#i-copy"/></svg>Copia testo</button></article>
+      </div>
+      <details class="reference-note"><summary>Hai una referenza locale pertinente?</summary><p>Usa un cliente reale e un lavoro effettivamente realizzato, solo se aiutano la conversazione.</p><blockquote>Qui in zona abbiamo lavorato con <b>[CLIENTE REALE]</b>. Posso mandarle un esempio del lavoro, così vede subito di cosa si tratta?</blockquote></details>
+      <div class="closing-rule"><strong>Breve. Concreto. Senza forzare.</strong><p>Un solo esempio, nessuna presentazione infinita. Niente prezzi improvvisati o risultati garantiti. Davanti a un no netto, ringrazia e chiudi.</p><a class="text-link" href="#registro">La chiamata è finita? Registra l’esito <span>↗</span></a></div>
+    </section>
+
+    <section id="obiezioni" class="page" aria-labelledby="objectionsTitle" hidden>
+      <div class="page-heading compact"><div><p class="eyebrow">02 / QUANDO TI RISPONDONO</p><h1 id="objectionsTitle">Ascolta.<br>Poi <em>rispondi.</em></h1><p class="intro">Una risposta breve. Una domanda semplice. Non serve vincere una discussione.</p></div></div>
+      <label class="search-label" for="objectionSearch">Trova una risposta</label><input type="search" id="objectionSearch" placeholder="Cerca: prezzo, agenzia, tempo…" autocomplete="off">
+      <div id="objectionList" class="objection-list">
+        <details class="objection"><summary>«Abbiamo già un sito o un’agenzia.»</summary><div><p id="o1">Capisco. L’esempio può aiutarla a valutare se c’è qualcosa di utile anche per voi. Vuole che glielo invii?</p><button class="copy" data-copy="o1">Copia risposta</button></div></details>
+        <details class="objection"><summary>«Abbiamo il fotografo o le foto dei brand.»</summary><div><p id="o2">Chiaro. Le mostro come possiamo presentare quei prodotti online; poi valuta se le è utile. Posso mandarle un esempio?</p><button class="copy" data-copy="o2">Copia risposta</button></div></details>
+        <details class="objection"><summary>«Non vendiamo online.»</summary><div><p id="o3">Possiamo parlarne anche con l’obiettivo di presentare i prodotti e favorire i contatti con il negozio. Vuole vedere un esempio?</p><button class="copy" data-copy="o3">Copia risposta</button></div></details>
+        <details class="objection"><summary>«Instagram lo seguiamo internamente.»</summary><div><p id="o4">Va bene. Possiamo valutare se c’è un pezzo su cui essere utili a chi vi segue già. Posso mostrarle un esempio?</p><button class="copy" data-copy="o4">Copia risposta</button></div></details>
+        <details class="objection"><summary>«Quanto costa?»</summary><div><p id="o5">Il costo dipende dal lavoro richiesto. Se l’esempio le interessa, organizziamo un breve confronto con Samuele per definire cosa serve e ricevere una proposta precisa.</p><span class="hint">Prezzo: usa solo una proposta concordata con Samuele.</span><button class="copy" data-copy="o5">Copia risposta</button></div></details>
+        <details class="objection"><summary>«Mandami una mail.»</summary><div><p id="o6">Volentieri. Qual è l’indirizzo migliore? Le mando un esempio breve. Possiamo risentirci [GIORNO] alle [ORA] per capire se vale la pena approfondire?</p><button class="copy" data-copy="o6">Copia risposta</button></div></details>
+        <details class="objection"><summary>«Non ho tempo.»</summary><div><p id="o7">Capisco, la lascio al lavoro. C’è un momento più comodo per una breve chiamata?</p><span class="hint">Se non propone un momento o rifiuta, ringrazia e chiudi.</span><button class="copy" data-copy="o7">Copia risposta</button></div></details>
+        <details class="objection"><summary>«Il titolare non c’è.»</summary><div><p id="o8">Nessun problema. Quando riesco a trovarlo più facilmente? Mi può indicare il nome della persona con cui parlare?</p><button class="copy" data-copy="o8">Copia risposta</button></div></details>
+        <details class="objection stop"><summary>«Non ci interessa.»</summary><div><p id="o9">Va bene, nessun problema. Grazie del tempo e buona giornata.</p><span class="hint">Segna “Non interessato”. Non programmare un altro contatto.</span><button class="copy" data-copy="o9">Copia risposta</button></div></details>
+      </div><p id="noObjections" class="empty-state" hidden>Nessuna risposta trovata. Prova una parola diversa.</p>
+    </section>
+
+    <section id="followup" class="page" aria-labelledby="followupTitle" hidden>
+      <div class="page-heading compact"><div><p class="eyebrow">03 / DOPO IL PRIMO SÌ</p><h1 id="followupTitle">Mantieni<br>la <em>promessa.</em></h1><p class="intro">Invia il materiale concordato. Poi torna a parlare del loro negozio.</p></div></div>
+      <ol class="flow"><li><b>Invia</b><span>Un link o due immagini pertinenti, sul canale scelto.</span></li><li><b>Registra</b><span>Recapito, giorno e ora. Se non concordati, chiedili.</span></li><li><b>Richiama</b><span>Due minuti per raccogliere un’impressione.</span></li></ol>
+      <div class="card composer"><div class="section-caption"><h2>Prepara il messaggio</h2><span>Da copiare e inviare tu</span></div><p class="hint">Usalo dopo aver ricevuto il permesso. Inserisci il link al materiale prima di copiarlo.</p><div class="form-grid">
+        <label>Nome del referente<input id="messageContact" autocomplete="off" placeholder="Es. Sig.ra Rossi" maxlength="100"></label>
+        <label>Link all’esempio <span class="required">*</span><input id="messageLink" type="url" placeholder="https://…" maxlength="2000"></label>
+        <label class="full">Richiamo concordato <span class="optional">facoltativo</span><input id="messageDate" type="datetime-local"></label>
+      </div><div class="message-card"><span class="tiny-label">WHATSAPP</span><p id="waMessage"></p><button class="copy" data-copy="waMessage" data-message="true">Copia WhatsApp</button></div><details class="email-template"><summary>Versione email</summary><p class="hint"><b>Oggetto:</b> Caratura Digitale — esempio concordato al telefono</p><p id="emailMessage"></p><button class="copy" data-copy="emailMessage" data-message="true" data-email="true">Copia email con oggetto</button></details><p id="messageError" class="field-error" role="alert"></p></div>
+      <article class="script-card"><div class="card-heading"><span class="step-number">↩</span><div><span class="tiny-label">IL RICHIAMO</span><h3>Riparti dall’esempio</h3></div></div><blockquote id="callback">Buongiorno [REFERENTE], sono <b data-operator>[IL TUO NOME]</b> di Caratura Digitale. Ci sentiamo come concordato. Ha avuto modo di vedere l’esempio?</blockquote><p class="hint">Se l’ha visto: «C’è qualcosa che le sarebbe utile approfondire per la vostra gioielleria?»</p><p class="hint">Se non l’ha visto: «Preferisce concordare un altro momento?»</p><button class="copy" data-copy="callback">Copia richiamo</button></article>
+      <div class="closing-rule"><strong>C’è interesse? Il prossimo passo è con Samuele.</strong><p>«Possiamo organizzare 10–15 minuti con Samuele. Le è più comodo [OPZIONE A] oppure [OPZIONE B]?»</p><p class="hint">Conferma la disponibilità di Samuele prima di promettere l’appuntamento.</p><a class="text-link" href="#registro">Registra il prossimo passo <span>↗</span></a></div>
+    </section>
+
+    <section id="registro" class="page" aria-labelledby="logTitle" hidden>
+      <div class="page-heading compact"><div><p class="eyebrow">04 / IL LAVORO DI OGGI</p><h1 id="logTitle">Ogni chiamata,<br>un <em>prossimo passo.</em></h1><p class="intro">Segna subito ciò che è successo. Ritrova i richiami senza affidarti alla memoria.</p></div></div>
+      <div class="stats"><div><strong id="statDecision">0</strong><span>Decisori raggiunti</span></div><div><strong id="statMaterials">0</strong><span>Materiali inviati</span></div><div><strong id="statFollowups">0</strong><span>Richiami / incontri fissati</span></div><div><strong id="statAppointments">0</strong><span>Appuntamenti</span></div></div>
+      <p class="hint">Conteggi delle chiamate salvate oggi per il nome selezionato. Obiettivo personale: 10 tentativi.</p>
+      <div class="notice"><b>Il tuo registro resta su questo browser.</b> Chanel e Andrea hanno registri separati su ciascun dispositivo, senza sincronizzazione. Esporta una copia a fine sessione; cancellare i dati del browser elimina il registro.</div>
+      <form id="callForm" class="card" novalidate><div class="section-caption"><h2 id="formTitle">Registra una chiamata</h2><span id="formOperator">Scegli il tuo nome in alto</span></div><div class="form-grid">
+        <label>Gioielleria <span class="required">*</span><input id="company" name="company" required maxlength="160" placeholder="Nome attività e città" autocomplete="organization"></label>
+        <label>Referente<input id="contact" name="contact" maxlength="120" placeholder="Nome o ruolo" autocomplete="off"></label>
+        <label>Telefono o email<input id="phone" name="phone" maxlength="160" placeholder="Recapito concordato" autocomplete="off"></label>
+        <label>Esito <span class="required">*</span><select id="outcome" name="outcome" required><option value="">Scegli l’esito</option><option>Non risponde</option><option>Decisore assente</option><option>Richiamo concordato</option><option>Invio autorizzato</option><option>Materiale inviato</option><option>Appuntamento</option><option>Non interessato</option></select></label>
+        <label>Canale autorizzato<select id="channel" name="channel"><option value="">Non concordato / non applicabile</option><option>WhatsApp</option><option>Email</option></select></label>
+        <label>Data e ora del prossimo contatto<input id="followupDate" name="followup" type="datetime-local"><span class="hint">Richiesto per richiamo concordato o appuntamento.</span></label>
+        <label class="checkbox-label full"><input type="checkbox" id="decisionMaker" name="decisionMaker"> Ho parlato con il decisore</label>
+        <label class="full">Note<textarea id="notes" name="notes" rows="3" maxlength="3000" placeholder="Cosa gli interessa? Quale materiale hai promesso?"></textarea></label>
+      </div><p id="formError" class="field-error" role="alert"></p><div class="actions"><button class="primary" id="saveCall" type="submit">Salva chiamata <span>＋</span></button><button type="button" id="cancelEdit" class="secondary" hidden>Annulla modifica</button></div><p id="savedMessage" role="status" class="hint"></p></form>
+      <section class="history-section" aria-labelledby="historyTitle"><div class="section-caption"><h2 id="historyTitle">Il tuo registro</h2><span id="historyCount">0 chiamate</span></div><div class="history-filters"><label class="sr-only" for="historyFilter">Filtra il registro</label><select id="historyFilter"><option value="today">Oggi</option><option value="due">Da richiamare</option><option value="all">Tutto lo storico</option></select><label class="sr-only" for="historySearch">Cerca nel registro</label><input type="search" id="historySearch" placeholder="Cerca attività o referente"></div><p class="hint" id="historyHelp">Le chiamate salvate oggi.</p><div id="historyList"></div></section>
+      <details class="exports"><summary>Esporta o trasferisci il registro</summary><p>Il CSV è leggibile in Excel e Fogli. La copia JSON permette di ripristinare i dati su un altro dispositivo. Le esportazioni comprendono tutto lo storico del nome selezionato.</p><div class="actions"><button class="secondary" id="exportCsv" type="button">Scarica CSV</button><button class="secondary" id="exportJson" type="button">Salva copia JSON</button><button class="secondary" id="importJson" type="button">Importa copia JSON</button><input id="importFile" type="file" accept=".json,application/json" hidden></div><p id="exportStatus" role="status" class="hint"></p></details>
+    </section>
+    <footer class="page-footer"><span>CARATURA DIGITALE</span><span>Chanel & Andrea · Manuale operativo</span></footer>
+  </main>
+</div>
+<nav class="mobile-nav" aria-label="Navigazione mobile">
+  <a href="#script" data-nav="script" aria-current="page"><svg><use href="#i-call"/></svg>Chiamata</a><a href="#obiezioni" data-nav="obiezioni"><svg><use href="#i-chat"/></svg>Obiezioni</a><a href="#followup" data-nav="followup"><svg><use href="#i-send"/></svg>Follow-up</a><a href="#registro" data-nav="registro"><svg><use href="#i-book"/></svg>Registro</a>
+</nav>
+<div id="toast" role="status" class="toast" hidden></div>
+<dialog id="copyDialog"><h2>Copia il testo</h2><p>Seleziona e copia il messaggio qui sotto.</p><textarea id="copyText" rows="7" readonly aria-label="Testo da copiare"></textarea><form method="dialog"><button class="primary">Chiudi</button></form></dialog>
+<noscript><div class="notice">Attiva JavaScript per usare il registro e la navigazione del manuale.</div></noscript>
+</body>
+</html>
