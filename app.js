@@ -2,6 +2,7 @@ import {operators, loadCalls, saveCall, updateCall, stats, localDay, toCSV, expo
 
 const $ = id => document.getElementById(id);
 const PROFILE_KEY = 'caratura.operator.v1';
+const CASE_STUDY_URL = 'https://caraturadigitale.com/caso-studio/';
 const sections = ['script', 'obiezioni', 'followup', 'registro'];
 let calls = [], operator = '', editingId = null, toastTimer, draftDirty = false, saving = false;
 try { const saved = localStorage.getItem(PROFILE_KEY); if (operators.includes(saved)) operator = saved; } catch {}
@@ -67,16 +68,18 @@ function updateMessages() {
   const url = $('messageLink').value.trim() || '[INSERISCI IL LINK]';
   const date = $('messageDate').value;
   const greeting = `Buongiorno${contact ? ' ' + contact : ''}, sono ${name} di Caratura Digitale.`;
-  const followup = date ? ` Ci risentiamo il ${dateText(date)}.` : '';
-  $('waMessage').textContent = `${greeting} Come concordato al telefono, le invio l’esempio: ${url}.${followup} Grazie, buona giornata.`.replace(`${url}.`, url + '\n');
-  $('emailMessage').textContent = `${greeting}\n\nCome concordato, trova qui l’esempio:\n${url}\n${date ? '\nCi risentiamo il ' + dateText(date) + ' per un breve riscontro.\n' : ''}\nGrazie e buona giornata,\n${name}\nCaratura Digitale`;
+  const followup = date ? `\n\nCi risentiamo il ${dateText(date)}.` : '';
+  const example = url === CASE_STUDY_URL ? 'il caso studio Vergottini' : 'l’esempio concordato';
+  $('waMessage').textContent = `${greeting}\n\nCome concordato al telefono, le invio ${example}:\n${url}${followup}\n\nGrazie, buona giornata.`;
+  $('emailMessage').textContent = `${greeting}\n\nCome concordato, trova qui ${example}:\n${url}\n${date ? '\nCi risentiamo il ' + dateText(date) + ' per un breve riscontro.\n' : ''}\nGrazie e buona giornata,\n${name}\nCaratura Digitale`;
+  $('openWhatsApp').href = 'https://wa.me/?text=' + encodeURIComponent($('waMessage').textContent);
   $('messageError').textContent = '';
 }
 ['messageContact','messageLink','messageDate'].forEach(id => $(id).addEventListener('input', updateMessages));
 function requireMessageFields() {
-  if (!operator) { $('messageError').textContent = 'Scegli il tuo nome in alto prima di copiare il messaggio.'; $('operator').focus(); return false; }
+  if (!operator) { $('messageError').textContent = 'Scegli il tuo nome in alto per preparare il messaggio.'; $('operator').focus(); return false; }
   try { const url = new URL($('messageLink').value.trim()); if (!['http:','https:'].includes(url.protocol)) throw new Error(); }
-  catch { $('messageError').textContent = 'Inserisci il link completo all’esempio (https://…) prima di copiare.'; $('messageLink').focus(); return false; }
+  catch { $('messageError').textContent = 'Inserisci il link completo all’esempio (https://…) prima di continuare.'; $('messageLink').focus(); return false; }
   return true;
 }
 async function copyText(text) {
@@ -91,6 +94,38 @@ document.querySelectorAll('[data-copy]').forEach(button => button.addEventListen
   const text = $(button.dataset.copy).innerText.trim();
   if (!operator && /\[IL TUO NOME\]/.test(text)) { toast('Scegli Chanel o Andrea in alto per personalizzare il testo.'); $('operator').focus(); return; }
   copyText((button.dataset.email ? 'Oggetto: Caratura Digitale — esempio concordato al telefono\n\n' : '') + text);
+}));
+$('openWhatsApp').addEventListener('click', event => { if (!requireMessageFields()) event.preventDefault(); });
+$('copyCaseStudy').addEventListener('click', () => copyText(CASE_STUDY_URL));
+
+// Files are prepared before a tap so native sharing keeps the user gesture on mobile.
+const photoNames = ['01-smeraldo-gioiello.jpg', '02-smeraldo-pitone.jpg'];
+let photoFiles = [];
+const shareButtons = [...document.querySelectorAll('[data-share-files]')];
+const nativeFileSharing = typeof navigator.share === 'function' && typeof navigator.canShare === 'function';
+if (nativeFileSharing) {
+  shareButtons.forEach(button => { button.disabled = true; });
+  Promise.all(photoNames.map(async name => {
+    const response = await fetch(new URL('./assets/' + name, import.meta.url));
+    if (!response.ok) throw new Error('Foto non disponibile');
+    return new File([await response.blob()], name, {type:'image/jpeg'});
+  })).then(files => { photoFiles = files; })
+    .catch(() => { $('materialStatus').textContent = 'Condivisione delle foto non pronta. Puoi usare i pulsanti Scarica JPG oppure ricaricare la pagina.'; })
+    .finally(() => { shareButtons.forEach(button => { button.disabled = false; }); });
+} else {
+  $('shareHelp').textContent = 'Questo browser non supporta la condivisione diretta dei file. Scarica i due JPG o lo ZIP e allega le immagini al messaggio WhatsApp. Da un telefono compatibile puoi usare “Condividi”.';
+}
+shareButtons.forEach(button => button.addEventListener('click', () => {
+  const files = button.dataset.shareFiles === 'all' ? photoFiles : [photoFiles[Number(button.dataset.shareFiles)]].filter(Boolean);
+  try {
+    if (!nativeFileSharing || !files.length || !navigator.canShare({files})) {
+      $('materialStatus').textContent = 'La condivisione diretta delle foto non è disponibile qui. Scarica i JPG o lo ZIP, poi allegali su WhatsApp.';
+      $('downloadPhotoKit').focus(); return;
+    }
+    // No message is sent automatically: the user chooses an app and a recipient.
+    navigator.share({files}).then(() => { $('materialStatus').textContent = 'Foto passate al menu di condivisione del dispositivo.'; })
+      .catch(error => { $('materialStatus').textContent = error.name === 'AbortError' ? 'Condivisione annullata.' : 'Non è stato possibile aprire la condivisione. Scarica le foto e allegale al messaggio.'; });
+  } catch { $('materialStatus').textContent = 'Condivisione non disponibile. Usa Scarica JPG o Scarica entrambe.'; }
 }));
 
 $('objectionSearch').addEventListener('input', () => {

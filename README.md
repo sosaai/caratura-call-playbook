@@ -12,7 +12,9 @@ Obiettivo: ottenere il permesso di inviare un esempio e concordare il prossimo c
 4. Registra l’esito. Per richiami e appuntamenti indica data e ora.
 5. A fine sessione scarica CSV e copia JSON dal registro.
 
-Il campo link nel follow-up deve contenere il materiale da inviare al potenziale cliente, non questo manuale.
+Il follow-up include già il caso studio [Vergottini](https://caraturadigitale.com/caso-studio/) e due foto dell’esempio creativo smeraldo, nell’ordine: gioiello su fondo bianco, visual con modella e pitone. Sono i visual già pubblicati sul sito Caratura Digitale, convertiti in JPG senza ritagli o modifiche creative. Sono disponibili download individuali, ZIP e condivisione file nativa sui browser compatibili. Il pulsante WhatsApp apre un messaggio precompilato; destinatario e invio restano manuali, le foto vanno allegate separatamente.
+
+Il campo link è precompilato con il caso studio e può essere cambiato. Non inviare il manuale ai potenziali clienti.
 
 ## Dati e accesso
 
@@ -33,7 +35,7 @@ python3 -m http.server 8793 --bind 127.0.0.1
 npm test
 ```
 
-Aprire `http://127.0.0.1:8793/`. I file necessari al sito sono `index.html`, `style.css`, `app.js`, `store.js`, `icon.svg`, `robots.txt` e `.nojekyll`.
+Aprire `http://127.0.0.1:8793/`. I file necessari al sito sono `index.html`, `style.css`, `app.js`, `store.js`, `icon.svg`, `robots.txt`, `.nojekyll` e la cartella `assets`.
 
 ## Hosting
 
