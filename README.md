@@ -12,8 +12,9 @@ Obiettivo: ottenere il permesso di inviare un esempio e concordare il prossimo c
 4. Registra l’esito. Per richiami e appuntamenti indica data e ora.
 5. A fine sessione scarica CSV e copia JSON dal registro.
 
-Il follow-up include il caso studio [Vergottini](https://caraturadigitale.com/caso-studio/) e due coppie fotografiche:
+Il follow-up include il caso studio [Vergottini](https://caraturadigitale.com/caso-studio/) e tre coppie fotografiche:
 
+- Nuova coppia neve PNG: parure sul velluto → modella nella neve. PNG originali allegati dall’utente, copiati byte per byte senza modifiche; download dedicati e ZIP separato.
 - Inverno: gioielli a fiocco di neve sul vassoio → modella nella neve. JPG allegati dall’utente, copiati senza modifiche.
 - Smeraldo: gioiello su fondo bianco → visual con modella e pitone. Immagini già pubblicate su Caratura Digitale, convertite in JPG senza ritagli o modifiche creative.
 

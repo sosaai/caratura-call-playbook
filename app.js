@@ -135,13 +135,14 @@ $('copyCaseStudy').addEventListener('click', () => copyText(CASE_STUDY_URL));
 
 // Each kit is prepared independently before a tap, keeping native sharing in the user gesture.
 const photoKits = {
+  neve: ['01-neve-parure-velluto.png', '02-neve-modella-livigno.png'],
   inverno: ['01-inverno-gioielli.jpg', '02-inverno-indossato.jpg'],
   smeraldo: ['01-smeraldo-gioiello.jpg', '02-smeraldo-pitone.jpg']
 };
 const photoFiles = {};
 const nativeFileSharing = typeof navigator.share === 'function' && typeof navigator.canShare === 'function';
 if (!nativeFileSharing) {
-  $('shareHelp').textContent = 'Questo browser non supporta la condivisione diretta dei file. Scarica i JPG o lo ZIP della coppia scelta e allega le immagini al messaggio. Da un telefono compatibile puoi usare “Condividi”.';
+  $('shareHelp').textContent = 'Questo browser non supporta la condivisione diretta dei file. Scarica le foto o lo ZIP della coppia scelta e allega le immagini al messaggio. Da un telefono compatibile puoi usare “Condividi”.';
 }
 Object.entries(photoKits).forEach(([key, names]) => {
   const buttons = [...document.querySelectorAll(`[data-share-kit="${key}"]`)];
@@ -151,9 +152,9 @@ Object.entries(photoKits).forEach(([key, names]) => {
     Promise.all(names.map(async name => {
       const response = await fetch(new URL('./assets/' + name, import.meta.url), {signal: AbortSignal.timeout(20000)});
       if (!response.ok) throw new Error('Foto non disponibile');
-      return new File([await response.blob()], name, {type:'image/jpeg'});
+      return new File([await response.blob()], name, {type:name.endsWith('.png') ? 'image/png' : 'image/jpeg'});
     })).then(files => { photoFiles[key] = files; })
-      .catch(() => { status.textContent = 'Condivisione non pronta. Usa Scarica JPG o lo ZIP della coppia, oppure ricarica la pagina.'; })
+      .catch(() => { status.textContent = 'Condivisione non pronta. Usa i pulsanti Scarica o lo ZIP della coppia, oppure ricarica la pagina.'; })
       .finally(() => { buttons.forEach(button => { button.disabled = false; }); });
   }
   buttons.forEach(button => button.addEventListener('click', () => {
@@ -161,13 +162,13 @@ Object.entries(photoKits).forEach(([key, names]) => {
     const files = button.dataset.shareFiles === 'all' ? kit : [kit[Number(button.dataset.shareFiles)]].filter(Boolean);
     try {
       if (!nativeFileSharing || !files.length || !navigator.canShare({files})) {
-        status.textContent = 'Condivisione diretta non disponibile qui. Scarica i JPG o lo ZIP di questa coppia e allegali al messaggio.';
+        status.textContent = 'Condivisione diretta non disponibile qui. Scarica le foto o lo ZIP di questa coppia e allegali al messaggio.';
         $('download-' + key).focus(); return;
       }
       // The user chooses an app and a recipient; no automatic send.
       navigator.share({files}).then(() => { status.textContent = 'Foto passate al menu di condivisione del dispositivo.'; })
         .catch(error => { status.textContent = error.name === 'AbortError' ? 'Condivisione annullata.' : 'Non è stato possibile aprire la condivisione. Scarica le foto e allegale al messaggio.'; });
-    } catch { status.textContent = 'Condivisione non disponibile. Usa Scarica JPG o lo ZIP di questa coppia.'; }
+    } catch { status.textContent = 'Condivisione non disponibile. Usa i pulsanti Scarica o lo ZIP di questa coppia.'; }
   }));
 });
 
