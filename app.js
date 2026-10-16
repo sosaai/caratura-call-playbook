@@ -65,19 +65,43 @@ function dateText(value) {
 function updateMessages() {
   const contact = $('messageContact').value.trim();
   const name = operator || '[IL TUO NOME]';
+  const material = $('messageMaterial').value;
   const url = $('messageLink').value.trim() || '[INSERISCI IL LINK]';
   const date = $('messageDate').value;
   const greeting = `Buongiorno${contact ? ' ' + contact : ''}, sono ${name} di Caratura Digitale.`;
   const followup = date ? `\n\nCi risentiamo il ${dateText(date)}.` : '';
   const example = url === CASE_STUDY_URL ? 'il caso studio Vergottini' : 'l’esempio concordato';
-  $('waMessage').textContent = `${greeting}\n\nCome concordato al telefono, le invio ${example}:\n${url}${followup}\n\nGrazie, buona giornata.`;
-  $('emailMessage').textContent = `${greeting}\n\nCome concordato, trova qui ${example}:\n${url}\n${date ? '\nCi risentiamo il ' + dateText(date) + ' per un breve riscontro.\n' : ''}\nGrazie e buona giornata,\n${name}\nCaratura Digitale`;
+  const body = material === 'inverno'
+    ? 'Come concordato al telefono, le allego due immagini: prima la foto dei gioielli, poi una proposta di ambientazione invernale. È un esempio del tipo di contenuto che possiamo studiare intorno alle vostre collezioni.'
+    : material === 'smeraldo'
+      ? 'Come concordato al telefono, le allego un esempio di direzione creativa: dalla foto dell’anello a un’immagine dal taglio editoriale. L’ambientazione viene scelta in base allo stile della gioielleria.'
+      : `Come concordato al telefono, le invio ${example}:\n${url}`;
+  $('messageLink').disabled = material !== 'case';
+  $('waMessage').textContent = `${greeting}\n\n${body}${followup}\n\nGrazie, buona giornata.`;
+  $('emailMessage').textContent = `${greeting}\n\n${body}${followup}\n\nGrazie e buona giornata,\n${name}\nCaratura Digitale`;
   $('openWhatsApp').href = 'https://wa.me/?text=' + encodeURIComponent($('waMessage').textContent);
+  $('attachmentHelp').textContent = material === 'case'
+    ? 'Scegli tu il destinatario. Il messaggio contiene il link al caso studio.'
+    : `Allega manualmente la coppia ${material}: prima il prodotto (01), poi il visual (02). Apri in WhatsApp prepara solo il testo; le immagini non vengono aggiunte automaticamente.`;
   $('messageError').textContent = '';
 }
 ['messageContact','messageLink','messageDate'].forEach(id => $(id).addEventListener('input', updateMessages));
+$('messageMaterial').addEventListener('change', () => {
+  document.querySelectorAll('[data-kit]').forEach(kit => { kit.open = kit.dataset.kit === $('messageMaterial').value; });
+  updateMessages();
+});
+document.querySelectorAll('[data-choose-material]').forEach(button => button.addEventListener('click', () => {
+  const material = button.dataset.chooseMaterial;
+  $('messageMaterial').value = material;
+  document.querySelectorAll('[data-kit]').forEach(kit => { kit.open = kit.dataset.kit === material; });
+  updateMessages();
+  const destination = material === 'case' ? $('messageMaterial') : document.querySelector(`[data-kit="${material}"]`);
+  destination.scrollIntoView({block:'start'});
+  toast('Messaggio preparato per ' + (material === 'case' ? 'Vergottini' : 'la coppia ' + material));
+}));
 function requireMessageFields() {
   if (!operator) { $('messageError').textContent = 'Scegli il tuo nome in alto per preparare il messaggio.'; $('operator').focus(); return false; }
+  if ($('messageMaterial').value !== 'case') return true;
   try { const url = new URL($('messageLink').value.trim()); if (!['http:','https:'].includes(url.protocol)) throw new Error(); }
   catch { $('messageError').textContent = 'Inserisci il link completo all’esempio (https://…) prima di continuare.'; $('messageLink').focus(); return false; }
   return true;
@@ -98,35 +122,43 @@ document.querySelectorAll('[data-copy]').forEach(button => button.addEventListen
 $('openWhatsApp').addEventListener('click', event => { if (!requireMessageFields()) event.preventDefault(); });
 $('copyCaseStudy').addEventListener('click', () => copyText(CASE_STUDY_URL));
 
-// Files are prepared before a tap so native sharing keeps the user gesture on mobile.
-const photoNames = ['01-smeraldo-gioiello.jpg', '02-smeraldo-pitone.jpg'];
-let photoFiles = [];
-const shareButtons = [...document.querySelectorAll('[data-share-files]')];
+// Each kit is prepared independently before a tap, keeping native sharing in the user gesture.
+const photoKits = {
+  inverno: ['01-inverno-gioielli.jpg', '02-inverno-indossato.jpg'],
+  smeraldo: ['01-smeraldo-gioiello.jpg', '02-smeraldo-pitone.jpg']
+};
+const photoFiles = {};
 const nativeFileSharing = typeof navigator.share === 'function' && typeof navigator.canShare === 'function';
-if (nativeFileSharing) {
-  shareButtons.forEach(button => { button.disabled = true; });
-  Promise.all(photoNames.map(async name => {
-    const response = await fetch(new URL('./assets/' + name, import.meta.url));
-    if (!response.ok) throw new Error('Foto non disponibile');
-    return new File([await response.blob()], name, {type:'image/jpeg'});
-  })).then(files => { photoFiles = files; })
-    .catch(() => { $('materialStatus').textContent = 'Condivisione delle foto non pronta. Puoi usare i pulsanti Scarica JPG oppure ricaricare la pagina.'; })
-    .finally(() => { shareButtons.forEach(button => { button.disabled = false; }); });
-} else {
-  $('shareHelp').textContent = 'Questo browser non supporta la condivisione diretta dei file. Scarica i due JPG o lo ZIP e allega le immagini al messaggio WhatsApp. Da un telefono compatibile puoi usare “Condividi”.';
+if (!nativeFileSharing) {
+  $('shareHelp').textContent = 'Questo browser non supporta la condivisione diretta dei file. Scarica i JPG o lo ZIP della coppia scelta e allega le immagini al messaggio. Da un telefono compatibile puoi usare “Condividi”.';
 }
-shareButtons.forEach(button => button.addEventListener('click', () => {
-  const files = button.dataset.shareFiles === 'all' ? photoFiles : [photoFiles[Number(button.dataset.shareFiles)]].filter(Boolean);
-  try {
-    if (!nativeFileSharing || !files.length || !navigator.canShare({files})) {
-      $('materialStatus').textContent = 'La condivisione diretta delle foto non è disponibile qui. Scarica i JPG o lo ZIP, poi allegali su WhatsApp.';
-      $('downloadPhotoKit').focus(); return;
-    }
-    // No message is sent automatically: the user chooses an app and a recipient.
-    navigator.share({files}).then(() => { $('materialStatus').textContent = 'Foto passate al menu di condivisione del dispositivo.'; })
-      .catch(error => { $('materialStatus').textContent = error.name === 'AbortError' ? 'Condivisione annullata.' : 'Non è stato possibile aprire la condivisione. Scarica le foto e allegale al messaggio.'; });
-  } catch { $('materialStatus').textContent = 'Condivisione non disponibile. Usa Scarica JPG o Scarica entrambe.'; }
-}));
+Object.entries(photoKits).forEach(([key, names]) => {
+  const buttons = [...document.querySelectorAll(`[data-share-kit="${key}"]`)];
+  const status = $('status-' + key);
+  if (nativeFileSharing) {
+    buttons.forEach(button => { button.disabled = true; });
+    Promise.all(names.map(async name => {
+      const response = await fetch(new URL('./assets/' + name, import.meta.url), {signal: AbortSignal.timeout(20000)});
+      if (!response.ok) throw new Error('Foto non disponibile');
+      return new File([await response.blob()], name, {type:'image/jpeg'});
+    })).then(files => { photoFiles[key] = files; })
+      .catch(() => { status.textContent = 'Condivisione non pronta. Usa Scarica JPG o lo ZIP della coppia, oppure ricarica la pagina.'; })
+      .finally(() => { buttons.forEach(button => { button.disabled = false; }); });
+  }
+  buttons.forEach(button => button.addEventListener('click', () => {
+    const kit = photoFiles[key] || [];
+    const files = button.dataset.shareFiles === 'all' ? kit : [kit[Number(button.dataset.shareFiles)]].filter(Boolean);
+    try {
+      if (!nativeFileSharing || !files.length || !navigator.canShare({files})) {
+        status.textContent = 'Condivisione diretta non disponibile qui. Scarica i JPG o lo ZIP di questa coppia e allegali al messaggio.';
+        $('download-' + key).focus(); return;
+      }
+      // The user chooses an app and a recipient; no automatic send.
+      navigator.share({files}).then(() => { status.textContent = 'Foto passate al menu di condivisione del dispositivo.'; })
+        .catch(error => { status.textContent = error.name === 'AbortError' ? 'Condivisione annullata.' : 'Non è stato possibile aprire la condivisione. Scarica le foto e allegale al messaggio.'; });
+    } catch { status.textContent = 'Condivisione non disponibile. Usa Scarica JPG o lo ZIP di questa coppia.'; }
+  }));
+});
 
 $('objectionSearch').addEventListener('input', () => {
   const query = $('objectionSearch').value.trim().toLocaleLowerCase('it'); let count = 0;

@@ -12,9 +12,16 @@ Obiettivo: ottenere il permesso di inviare un esempio e concordare il prossimo c
 4. Registra l’esito. Per richiami e appuntamenti indica data e ora.
 5. A fine sessione scarica CSV e copia JSON dal registro.
 
-Il follow-up include già il caso studio [Vergottini](https://caraturadigitale.com/caso-studio/) e due foto dell’esempio creativo smeraldo, nell’ordine: gioiello su fondo bianco, visual con modella e pitone. Sono i visual già pubblicati sul sito Caratura Digitale, convertiti in JPG senza ritagli o modifiche creative. Sono disponibili download individuali, ZIP e condivisione file nativa sui browser compatibili. Il pulsante WhatsApp apre un messaggio precompilato; destinatario e invio restano manuali, le foto vanno allegate separatamente.
+Il follow-up include il caso studio [Vergottini](https://caraturadigitale.com/caso-studio/) e due coppie fotografiche:
 
-Il campo link è precompilato con il caso studio e può essere cambiato. Non inviare il manuale ai potenziali clienti.
+- Inverno: gioielli a fiocco di neve sul vassoio → modella nella neve. JPG allegati dall’utente, copiati senza modifiche.
+- Smeraldo: gioiello su fondo bianco → visual con modella e pitone. Immagini già pubblicate su Caratura Digitale, convertite in JPG senza ritagli o modifiche creative.
+
+La guida associa ogni esempio al target e al bisogno emerso, con limiti visivi espliciti. È una valutazione editoriale di pertinenza, non una promessa di conversione. I pulsanti della guida e il menu “Materiale da inviare” preparano il testo corrispondente e aprono la coppia selezionata. Il caso studio è la scelta iniziale.
+
+Sono disponibili download individuali, ZIP distinti e condivisione file nativa sui browser compatibili. Ogni pulsante condivide solo il relativo kit, sempre nell’ordine prodotto → visual. Il pulsante WhatsApp prepara soltanto il testo; destinatario, allegati e invio restano manuali.
+
+Il campo link è precompilato con il caso studio e può essere cambiato; è disabilitato quando si seleziona una coppia fotografica. Non inviare il manuale ai potenziali clienti.
 
 ## Dati e accesso
 
