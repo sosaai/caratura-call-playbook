@@ -64,28 +64,37 @@ function dateText(value) {
 }
 function updateMessages() {
   const contact = $('messageContact').value.trim();
+  const company = $('messageCompany').value.trim() || '[GIOIELLERIA]';
   const name = operator || '[IL TUO NOME]';
   const material = $('messageMaterial').value;
+  const personalized = material === 'personalizzato';
   const url = $('messageLink').value.trim() || '[INSERISCI IL LINK]';
   const date = $('messageDate').value;
-  const greeting = `Buongiorno${contact ? ' ' + contact : ''}, sono ${name}.`;
-  const followup = date ? `\n\nCi risentiamo il ${dateText(date)}.` : '';
-  const example = url === CASE_STUDY_URL ? 'il caso studio Vergottini' : 'l’esempio concordato';
-  const body = material === 'inverno'
-    ? 'Come concordato al telefono, le allego due immagini: prima la foto dei gioielli, poi una proposta di ambientazione invernale. È un esempio del tipo di contenuto che possiamo studiare intorno alle vostre collezioni.'
-    : material === 'smeraldo'
-      ? 'Come concordato al telefono, le allego un esempio di direzione creativa: dalla foto dell’anello a un’immagine dal taglio editoriale. L’ambientazione viene scelta in base allo stile della gioielleria.'
-      : `Come concordato al telefono, le invio ${example}:\n${url}`;
+  const greeting = `Buongiorno${contact ? ' ' + contact : ''}`;
+  const appointment = date ? `il ${new Date(date).toLocaleDateString('it-IT', {day:'numeric', month:'long', year:'numeric'})} alle ${new Date(date).toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'})}` : '';
+  const waBody = personalized
+    ? 'Come promesso, le mando la dimostrazione che abbiamo preparato su un vostro gioiello.'
+    : 'Come promesso, le mando un esempio del nostro lavoro con le gioiellerie.';
+  const emailBody = personalized
+    ? 'Come promesso, le mando la dimostrazione che abbiamo preparato su un vostro gioiello.'
+    : 'Come concordato, le invio una piccola dimostrazione del nostro lavoro con le gioiellerie.';
+  const exampleLink = material === 'case' ? `\n\n${url === CASE_STUDY_URL ? 'Caso studio Vergottini' : 'Esempio concordato'}:\n${url}` : '';
   $('messageLink').disabled = material !== 'case';
-  $('waMessage').textContent = `${greeting}\n\n${body}${followup}\n\nGrazie, buona giornata.`;
-  $('emailMessage').textContent = `${greeting}\n\n${body}${followup}\n\nGrazie e buona giornata,\n${name}`;
+  $('personalizedLabel').hidden = !personalized;
+  if (!personalized) $('personalizedConfirmed').checked = false;
+  $('waMessage').textContent = `${greeting}, sono ${name}, ci siamo sentiti poco fa.\n\n${waBody}${exampleLink}${appointment ? `\n\nCi sentiamo ${appointment}, come concordato, così mi dice cosa ne pensa.` : ''}\n\n${name} — Caratura Digitale`;
+  $('emailSubject').textContent = `Come promesso al telefono — esempio per ${company}`;
+  $('emailMessage').textContent = `${greeting},\n\nsono ${name}, ci siamo sentiti poco fa. ${emailBody}${exampleLink}${appointment ? `\n\nCi sentiamo ${appointment} per sapere cosa ne pensa.` : ''}\n\nA presto,\n${name}\nCaratura Digitale`;
   $('openWhatsApp').href = 'https://wa.me/?text=' + encodeURIComponent($('waMessage').textContent);
   $('attachmentHelp').textContent = material === 'case'
-    ? 'Scegli tu il destinatario. Il messaggio contiene il link al caso studio.'
-    : `Allega manualmente la coppia ${material}: prima il prodotto (01), poi il visual (02). Apri in WhatsApp prepara solo il testo; le immagini non vengono aggiunte automaticamente.`;
+    ? 'Il messaggio contiene il caso studio concordato. Scegli tu il destinatario; non inviare un catalogo di servizi.'
+    : personalized
+      ? 'Allega la dimostrazione effettivamente realizzata sul loro gioiello. Questa opzione non crea né allega immagini. Non definirla personalizzata se è un esempio generico.'
+      : `Allega la foto o la dimostrazione promessa. Per la coppia ${material}, prima il prodotto (01), poi il visual (02). Apri in WhatsApp prepara solo il testo: gli allegati vanno aggiunti manualmente.`;
   $('messageError').textContent = '';
 }
-['messageContact','messageLink','messageDate'].forEach(id => $(id).addEventListener('input', updateMessages));
+['messageContact','messageCompany','messageLink','messageDate'].forEach(id => $(id).addEventListener('input', updateMessages));
+$('personalizedConfirmed').addEventListener('change', updateMessages);
 $('messageMaterial').addEventListener('change', () => {
   document.querySelectorAll('[data-kit]').forEach(kit => { kit.open = kit.dataset.kit === $('messageMaterial').value; });
   updateMessages();
@@ -99,8 +108,10 @@ document.querySelectorAll('[data-choose-material]').forEach(button => button.add
   destination.scrollIntoView({block:'start'});
   toast('Messaggio preparato per ' + (material === 'case' ? 'Vergottini' : 'la coppia ' + material));
 }));
-function requireMessageFields() {
+function requireMessageFields({email = false} = {}) {
   if (!operator) { $('messageError').textContent = 'Scegli il tuo nome in alto per preparare il messaggio.'; $('operator').focus(); return false; }
+  if (email && !$('messageCompany').value.trim()) { $('messageError').textContent = 'Inserisci il nome della gioielleria per completare l’oggetto email.'; $('messageCompany').focus(); return false; }
+  if ($('messageMaterial').value === 'personalizzato' && !$('personalizedConfirmed').checked) { $('messageError').textContent = 'Conferma che la dimostrazione è stata realizzata su un loro gioiello, oppure scegli un esempio generico.'; $('personalizedConfirmed').focus(); return false; }
   if ($('messageMaterial').value !== 'case') return true;
   try { const url = new URL($('messageLink').value.trim()); if (!['http:','https:'].includes(url.protocol)) throw new Error(); }
   catch { $('messageError').textContent = 'Inserisci il link completo all’esempio (https://…) prima di continuare.'; $('messageLink').focus(); return false; }
@@ -114,10 +125,10 @@ async function copyText(text) {
   }
 }
 document.querySelectorAll('[data-copy]').forEach(button => button.addEventListener('click', () => {
-  if (button.dataset.message && !requireMessageFields()) return;
+  if (button.dataset.message && !requireMessageFields({email:button.dataset.email === 'true'})) return;
   const text = $(button.dataset.copy).innerText.trim();
   if (!operator && /\[IL TUO NOME\]/.test(text)) { toast('Scegli Chanel o Andrea in alto per personalizzare il testo.'); $('operator').focus(); return; }
-  copyText((button.dataset.email ? 'Oggetto: Esempio concordato al telefono\n\n' : '') + text);
+  copyText((button.dataset.email ? 'Oggetto: ' + $('emailSubject').textContent + '\n\n' : '') + text);
 }));
 $('openWhatsApp').addEventListener('click', event => { if (!requireMessageFields()) event.preventDefault(); });
 $('copyCaseStudy').addEventListener('click', () => copyText(CASE_STUDY_URL));

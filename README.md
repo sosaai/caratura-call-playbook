@@ -6,7 +6,7 @@ Obiettivo: ottenere il permesso di inviare un esempio e concordare il prossimo c
 
 ## Uso
 
-1. Scegli Chanel o Andrea dal menu in alto. Nei testi di chiamata e nei messaggi ti presenti solo con il nome; la firma email contiene soltanto il nome.
+1. Scegli Chanel o Andrea dal menu in alto. L’apertura segue il testo concordato: nome → lavoriamo già con diverse gioiellerie → richiesta del titolare. Il brand si dice subito se richiesto e compare nelle firme WhatsApp/email.
 2. Prima della chiamata prepara un esempio pertinente e i recapiti dell’attività.
 3. Usa lo script e concorda sia l’invio sia l’eventuale richiamo.
 4. Registra l’esito. Per richiami e appuntamenti indica data e ora.
@@ -17,9 +17,11 @@ Il follow-up include il caso studio [Vergottini](https://caraturadigitale.com/ca
 - Inverno: gioielli a fiocco di neve sul vassoio → modella nella neve. JPG allegati dall’utente, copiati senza modifiche.
 - Smeraldo: gioiello su fondo bianco → visual con modella e pitone. Immagini già pubblicate su Caratura Digitale, convertite in JPG senza ritagli o modifiche creative.
 
-La guida associa ogni esempio al target e al bisogno emerso, con limiti visivi espliciti. È una valutazione editoriale di pertinenza, non una promessa di conversione. I pulsanti della guida e il menu “Materiale da inviare” preparano il testo corrispondente e aprono la coppia selezionata. Il caso studio è la scelta iniziale.
+La guida associa ogni esempio al target e al bisogno emerso, con limiti visivi espliciti. È una valutazione editoriale di pertinenza, non una promessa di conversione. I pulsanti della guida e il menu “Materiale da inviare” preparano il testo corrispondente e aprono la coppia selezionata. Il caso studio è la scelta iniziale. I testi seguono lo script fornito dall’utente: beneficio di più clienti in negozio, esempio da guardare, richiamo concordato. Le referenze locali sono riservate a Sondrio e a clienti effettivi; Livigno e Bormio usano l’apertura standard.
 
 Sono disponibili download individuali, ZIP distinti e condivisione file nativa sui browser compatibili. Ogni pulsante condivide solo il relativo kit, sempre nell’ordine prodotto → visual. Il pulsante WhatsApp prepara soltanto il testo; destinatario, allegati e invio restano manuali.
+
+La frase sul richiamo compare nei messaggi solo se viene compilato il campo del richiamo concordato. L’oggetto email usa il nome della gioielleria; per copiarlo serve compilare il campo. La variante personalizzata richiede di confermare che la dimostrazione sia realmente stata preparata su un loro gioiello, non su un prodotto generico.
 
 Il campo link è precompilato con il caso studio e può essere cambiato; è disabilitato quando si seleziona una coppia fotografica. Non inviare il manuale ai potenziali clienti.
 
