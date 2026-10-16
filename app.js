@@ -68,7 +68,7 @@ function updateMessages() {
   const material = $('messageMaterial').value;
   const url = $('messageLink').value.trim() || '[INSERISCI IL LINK]';
   const date = $('messageDate').value;
-  const greeting = `Buongiorno${contact ? ' ' + contact : ''}, sono ${name} di Caratura Digitale.`;
+  const greeting = `Buongiorno${contact ? ' ' + contact : ''}, sono ${name}.`;
   const followup = date ? `\n\nCi risentiamo il ${dateText(date)}.` : '';
   const example = url === CASE_STUDY_URL ? 'il caso studio Vergottini' : 'l’esempio concordato';
   const body = material === 'inverno'
@@ -78,7 +78,7 @@ function updateMessages() {
       : `Come concordato al telefono, le invio ${example}:\n${url}`;
   $('messageLink').disabled = material !== 'case';
   $('waMessage').textContent = `${greeting}\n\n${body}${followup}\n\nGrazie, buona giornata.`;
-  $('emailMessage').textContent = `${greeting}\n\n${body}${followup}\n\nGrazie e buona giornata,\n${name}\nCaratura Digitale`;
+  $('emailMessage').textContent = `${greeting}\n\n${body}${followup}\n\nGrazie e buona giornata,\n${name}`;
   $('openWhatsApp').href = 'https://wa.me/?text=' + encodeURIComponent($('waMessage').textContent);
   $('attachmentHelp').textContent = material === 'case'
     ? 'Scegli tu il destinatario. Il messaggio contiene il link al caso studio.'
@@ -117,7 +117,7 @@ document.querySelectorAll('[data-copy]').forEach(button => button.addEventListen
   if (button.dataset.message && !requireMessageFields()) return;
   const text = $(button.dataset.copy).innerText.trim();
   if (!operator && /\[IL TUO NOME\]/.test(text)) { toast('Scegli Chanel o Andrea in alto per personalizzare il testo.'); $('operator').focus(); return; }
-  copyText((button.dataset.email ? 'Oggetto: Caratura Digitale — esempio concordato al telefono\n\n' : '') + text);
+  copyText((button.dataset.email ? 'Oggetto: Esempio concordato al telefono\n\n' : '') + text);
 }));
 $('openWhatsApp').addEventListener('click', event => { if (!requireMessageFields()) event.preventDefault(); });
 $('copyCaseStudy').addEventListener('click', () => copyText(CASE_STUDY_URL));

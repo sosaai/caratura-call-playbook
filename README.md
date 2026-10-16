@@ -6,7 +6,7 @@ Obiettivo: ottenere il permesso di inviare un esempio e concordare il prossimo c
 
 ## Uso
 
-1. Scegli Chanel o Andrea dal menu in alto.
+1. Scegli Chanel o Andrea dal menu in alto. Nei testi di chiamata e nei messaggi ti presenti solo con il nome; la firma email contiene soltanto il nome.
 2. Prima della chiamata prepara un esempio pertinente e i recapiti dell’attività.
 3. Usa lo script e concorda sia l’invio sia l’eventuale richiamo.
 4. Registra l’esito. Per richiami e appuntamenti indica data e ora.
